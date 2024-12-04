@@ -1,21 +1,24 @@
 import React, {useState, useEffect} from 'react';
-import { FormControl, InputLabel, Input, FormHelperText } from '@mui/material';
+import { FormControl, InputLabel, OutlinedInput } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 
 //Declaração do componente CriarTarefa, recebendo como props, do Componente ListarTarefa, os states handClose, tarefas e setTarefas
 const CriarTarefa = ({handleClose, tarefas, setTarefas}) =>{
+  const hoje = new Date().toLocaleDateString('fr-CA', {year:"numeric", month: "2-digit", day:"2-digit"});
+  const tresDiasDepois = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)
+  .toLocaleDateString('fr-CA', { year: "numeric", month: "2-digit", day: "2-digit" });
+
   const [idTarefa, setIdTarefa] = useState();
   const [tituloTarefa, setTituloTarefa] = useState('');
   const [descricaoTarefa, setDescricaoTarefa] = useState('');
-  const [inicioTarefa, setInicioTarefa] = useState('');
-  const [fimTarefa, setFimTarefa] = useState('');
+  const [inicioTarefa, setInicioTarefa] = useState(hoje);
+  const [fimTarefa, setFimTarefa] = useState(tresDiasDepois);
   const [recursoTarefa, setRecursoTarefa] = useState('');
   const [statusTarefa, setStatusTarefa] = useState('');
   
@@ -65,41 +68,47 @@ const CriarTarefa = ({handleClose, tarefas, setTarefas}) =>{
           width: '95%',
           maxWidth: '100%',
         }}>
-          <Grid item xs={12}>
+          <Grid item xs={12} mb={2}>
             <FormControl fullWidth>
-              <Input id="tarefa_titulo" aria-describedby="tarefa_titulo_helper_text" value={tituloTarefa} onChange={e => { setTituloTarefa(e.target.value) }} />
-              <FormHelperText id="tarefa_titulo_helper_text">Título da Tarefa.</FormHelperText>
+              <InputLabel htmlFor="tarefa_titulo">Título da Tarefa</InputLabel>
+              <OutlinedInput id="tarefa_titulo" aria-describedby="tarefa_titulo_helper_text" label="Título da Tarefa" 
+                value={tituloTarefa} onChange={e => { setTituloTarefa(e.target.value) }} />
             </FormControl>
           </Grid>
-          <Grid item xs={12}>  
+          <Grid item xs={12} mb={2}>  
             <FormControl fullWidth>
-              <Input id="tarefa_descricao" aria-describedby="tarefa_descricao_helper_text" value={descricaoTarefa} onChange={e => { setDescricaoTarefa(e.target.value) }} />
-              <FormHelperText id="tarefa_descricao_helper_text">Descrição da Tarefa.</FormHelperText>
+              <InputLabel htmlFor="tarefa_titulo">Descrição da Tarefa</InputLabel>
+              <OutlinedInput id="tarefa_descricao"
+                label="Descrição da Tarefa" aria-describedby="tarefa_descricao_helper_text" value={descricaoTarefa}
+                onChange={e => { setDescricaoTarefa(e.target.value) }} />
             </FormControl>
           </Grid>
           <Grid container spacing={2} mt={1}>
             <Grid item xs={3}>  
               <FormControl>
-                <Input id="tarefa_inicio" type="date" aria-describedby="tarefa_inicio_helper_text" value={inicioTarefa} onChange={e => { setInicioTarefa(e.target.value) }}
+                <InputLabel htmlFor="tarefa_inicio">Início da Tarefa</InputLabel>
+                <OutlinedInput id="tarefa_inicio" type="date"
+                  label="Início da Tarefa" aria-describedby="tarefa_inicio_helper_text" value={inicioTarefa} 
+                  onChange={e => { setInicioTarefa(e.target.value) }}
                   sx={{
                     color:'rgba(0, 0, 0, 0.6)',
                     fontWeight: 400,
                     paddingLeft:'13px'
                   }} 
                 />
-                <FormHelperText id="tarefa_inicio_helper_text">Início da Tarefa.</FormHelperText>
               </FormControl>
             </Grid>  
             <Grid item xs={3}>  
               <FormControl>
-                <Input id="tarefa_fim" type="date" aria-describedby="tarefa_fim_helper_text" value={fimTarefa} onChange={e => { setFimTarefa(e.target.value) }}
+                <InputLabel htmlFor="tarefa_fim">Fim da Tarefa</InputLabel>
+                <OutlinedInput id="tarefa_fim" type="date" label="Fim da Tarefa" 
+                  aria-describedby="tarefa_fim_helper_text" value={fimTarefa} onChange={e => { setFimTarefa(e.target.value) }}
                   sx={{
                     color:'rgba(0, 0, 0, 0.6)',
                     fontWeight: 400,
                     paddingLeft:'13px'
                   }} 
                 />
-                <FormHelperText id="tarefa_fim_helper_text">Fim da Tarefa.</FormHelperText>
               </FormControl>
             </Grid>
             <Grid item xs={3}>  
@@ -110,7 +119,7 @@ const CriarTarefa = ({handleClose, tarefas, setTarefas}) =>{
                   value={recursoTarefa}
                   label="Recurso"
                   onChange={handleRecurso}
-                  size="small"
+                  size="medium"
                   sx={{
                     color:'rgba(0, 0, 0, 0.6)',
                     fontWeight: 400,
@@ -130,7 +139,7 @@ const CriarTarefa = ({handleClose, tarefas, setTarefas}) =>{
                   value={statusTarefa}
                   label="Status"
                   onChange={handleStatus}
-                  size="small"
+                  size="medium"
                   sx={{
                     color:'rgba(0, 0, 0, 0.6)',
                     fontWeight: 400,
@@ -143,7 +152,7 @@ const CriarTarefa = ({handleClose, tarefas, setTarefas}) =>{
               </FormControl>
             </Grid>
             <Grid container spacing={2} pl={2} mt={2}>
-              <Grid item xs={1}>
+              <Grid item xs={1} mr={2}>
                 <Button size="small" variant="contained" onClick={handleSalvar}>Salvar</Button>
               </Grid>  
               <Grid item xs={1}>  

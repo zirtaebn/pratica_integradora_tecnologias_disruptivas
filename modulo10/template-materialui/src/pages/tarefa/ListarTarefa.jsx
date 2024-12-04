@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
@@ -14,6 +14,9 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import Modal from '@mui/material/Modal';
+import moment from 'moment';
+
+import { styled } from '@mui/material/styles';
 
 import CriarTarefa from './CriarTarefa';
 import EditarTarefa from './EditarTarefa';
@@ -40,6 +43,16 @@ const initialRows = [
   createData(5, 'Tarefa 5', 'Descrição da Tarefa 5', '2022-01-06', '2022-01-07', 'Em Andamento', 'Recurso 5'),
   createData(6, 'Tarefa 6', 'Descrição da Tarefa 6', '2022-01-07', '2022-01-08', 'Aguardando', 'Recurso 6'),
 ];
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
 
 //Componente ListarTarefa
 const ListarTarefa = () => {
@@ -93,15 +106,15 @@ const ListarTarefa = () => {
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableHead>
                 <TableRow>
-                    <TableCell>#</TableCell>
-                    <TableCell>Título</TableCell>
-                    <TableCell align="right">Descrição</TableCell>
-                    <TableCell align="right">Data de Início</TableCell>
-                    <TableCell align="right">Data de Finalização</TableCell>
-                    <TableCell align="right">Status</TableCell>
-                    <TableCell align="right">Recurso</TableCell>
-                    <TableCell align="left"></TableCell>
-                    <TableCell align="left"></TableCell>
+                    <StyledTableCell></StyledTableCell>
+                    <StyledTableCell>Título</StyledTableCell>
+                    <StyledTableCell align="right">Descrição</StyledTableCell>
+                    <StyledTableCell align="right">Data de Início</StyledTableCell>
+                    <StyledTableCell align="right">Data de Finalização</StyledTableCell>
+                    <StyledTableCell align="right">Status</StyledTableCell>
+                    <StyledTableCell align="right">Recurso</StyledTableCell>
+                    <StyledTableCell align="left"></StyledTableCell>
+                    <StyledTableCell align="left"></StyledTableCell>
                 </TableRow>
                 </TableHead>
                 <TableBody>
@@ -117,15 +130,19 @@ const ListarTarefa = () => {
                           {row.tituloTarefa}
                       </TableCell>
                       <TableCell align="right">{row.descricaoTarefa}</TableCell>
-                      <TableCell align="right">{row.inicioTarefa}</TableCell>
-                      <TableCell align="right">{row.fimTarefa}</TableCell>
+                      <TableCell align="right">{moment(row.inicioTarefa).format('DD/MM/YYYY')}</TableCell>
+                      <TableCell align="right">{moment(row.fimTarefa).format('DD/MM/YYYY')}</TableCell>
                       <TableCell align="right">{row.statusTarefa}</TableCell>
                       <TableCell align="right">{row.recursoTarefa}</TableCell>
                       <TableCell align="center">
-                        <Button variant="contained" color="success" onClick={() => handleEditar(row.idTarefa)}><EditIcon fontSize="small" /></Button>            
+                        <Button  size="small" variant="contained" color="success" onClick={() => handleEditar(row.idTarefa)}>
+                          <EditIcon fontSize="inherit"/>
+                        </Button>            
                       </TableCell>
                       <TableCell align="center">
-                        <Button variant="contained" color="error" onClick={() => handleDeletar(row.idTarefa)}><DeleteIcon fontSize="small" /></Button>            
+                        <Button variant="contained" color="error" onClick={() => handleDeletar(row.idTarefa)}>
+                          <DeleteIcon fontSize="inherit" />
+                        </Button>            
                       </TableCell>
                     </TableRow>
                 ))}
